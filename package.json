@@ -1,0 +1,29 @@
+{
+  "name": "spotify-top",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "find": "nodemon index.js nirvana"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YuriSS/spotify-top.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YuriSS/spotify-top/issues"
+  },
+  "homepage": "https://github.com/YuriSS/spotify-top#readme",
+  "dependencies": {
+    "data.either": "^1.4.0",
+    "data.task": "^3.1.1",
+    "immutable": "^3.8.1",
+    "immutable-ext": "^1.0.8",
+    "nodemon": "^1.11.0",
+    "request": "^2.79.0"
+  }
+}
