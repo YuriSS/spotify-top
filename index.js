@@ -1,20 +1,31 @@
 'use strict'
 
 const Task = require('data.task')
-const {findArtist} = require('./models/')
+const {List} = require('immutable-ext')
+const Spotify = require('./models/')
+const {trace, Max} = require('./support/')
 
 // argv :: Task a
 const argv = new Task((rej,res) => res(process.argv))
 
-// names :: Task [name]
+// names :: Task [names]
 const names = argv.map(arg => arg.slice(2))
 
-// main :: [names] -> Task Future artists
-const getArtists = ([name1, name2]) =>
-  Task.of(art1 => art2 => ({first: art1, second: art2}))
-  .ap(findArtist(name1))
-  .ap(findArtist(name1))
+// getPopularity :: String -> Task Future popularity
+const getPopularity = name =>
+    Spotify.findArtist(name)
+    .map(artist => artist.id)
+    .chain(Spotify.findArtistTopTrack)
 
-const main = getArtists
+const getMostPopular = popularity =>
+    popularity
+    .foldMap(Max, Max.empty())
+
+const main = names =>
+    List(names)
+    .traverse(Task.of, getPopularity)
+    .map(getMostPopular)
+    .map(max => max.x)
+    .map(max => 'Most popular '.concat(max))
 
 names.chain(main).fork(console.error, console.log)
